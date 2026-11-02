@@ -52,8 +52,8 @@ const EXPERTS_DATA = [
     gradient: "linear-gradient(135deg, #14532d 0%, #15803d 50%, #22c55e 100%)",
     tagline: "Phòng bệnh hơn chữa bệnh - Đúng thuốc, Đúng liều, Chống kháng",
     summary: "Chẩn đoán lâm sàng bệnh Chết nhanh (Phytophthora) & Chết chậm (Tuyến trùng + Fusarium), lên phác đồ IPM và an toàn sinh học.",
-    defaultShareUrl: "",
-    statusText: "Chờ cấu hình link",
+    defaultShareUrl: "https://share.gemini.google/iK1FGQn3AuJH",
+    statusText: "Đã kết nối Gemini",
     agents: [
       { name: "Agent 1: Plant Pathology", desc: "Chẩn đoán phân biệt nấm Phytophthora (chết nhanh) và Tuyến trùng Meloidogyne (chết chậm)." },
       { name: "Agent 2: Pharmacology & IPM", desc: "Kê đơn hoạt chất BVTV theo danh mục Bộ NN, thiết lập chu kỳ luân phiên chống kháng." },
@@ -87,8 +87,8 @@ const EXPERTS_DATA = [
     gradient: "linear-gradient(135deg, #713f12 0%, #a16207 50%, #eab308 100%)",
     tagline: "Bảo vệ Mắt cua - Quản lý Đọt non - Cân bằng Dinh dưỡng",
     summary: "Xử lý làm bông nghịch vụ (đậy bạt, siết nước), kỹ thuật chặn đọt non khi xả nhụy, chống sốc nhiệt và hạn chế rụng trái non.",
-    defaultShareUrl: "",
-    statusText: "Chờ cấu hình link",
+    defaultShareUrl: "https://share.gemini.google/KeeNMRZO2qiW",
+    statusText: "Đã kết nối Gemini",
     agents: [
       { name: "Agent 1: Climate & Water Control", desc: "Tạo khô hạn nhân tạo, tính toán đậy bạt nilon, điều tiết tưới nhấp chống sốc nước." },
       { name: "Agent 2: PGR & Nutrition Engine", desc: "Liều lượng Paclobutrazol, KNO3 phá miên trạng, phác đồ MKP chặn đọt khẩn cấp." },
@@ -122,8 +122,8 @@ const EXPERTS_DATA = [
     gradient: "linear-gradient(135deg, #451a03 0%, #78350f 50%, #15803d 100%)",
     tagline: "Đất khỏe thì rễ khỏe - Trả lại hệ sinh thái tự nhiên cho đất",
     summary: "Hạ chua nâng pH, giải phóng Lân khó tiêu, tái tạo mùn hữu cơ và cấy tổ hợp nấm đối kháng Trichoderma trên đất đỏ bazan suy thoái.",
-    defaultShareUrl: "",
-    statusText: "Chờ cấu hình link",
+    defaultShareUrl: "https://share.gemini.google/KGwfQQqA8jGf",
+    statusText: "Đã kết nối Gemini",
     agents: [
       { name: "Agent 1: Pedology & Chemistry", desc: "Giải mã pH, EC, ngộ độc Nhôm tự do (Al3+), tính toán lượng Vôi nung / Dolomite nâng pH." },
       { name: "Agent 2: Microbial Ecology", desc: "Kê đơn nấm đối kháng Trichoderma, vi khuẩn phân giải lân Bacillus, quy chuẩn phân ủ hoai." },
@@ -157,8 +157,8 @@ const EXPERTS_DATA = [
     gradient: "linear-gradient(135deg, #701a75 0%, #991b1b 50%, #b91c1c 100%)",
     tagline: "Lên men có kiểm soát - Tôn vinh hương vị bản địa - Tối ưu giá trị thương mại",
     summary: "Quy chuẩn lên men Yếm khí (Anaerobic) & Honey, kiểm soát độ Brix/pH/nhiệt độ, đạt chuẩn Cupping SCA và định giá thương mại cao cấp.",
-    defaultShareUrl: "",
-    statusText: "Chờ cấu hình link",
+    defaultShareUrl: "https://share.gemini.google/y24RFu2dfjSw",
+    statusText: "Đã kết nối Gemini",
     agents: [
       { name: "Agent 1: Fermentation Biochemist", desc: "Thiết lập profile ủ yếm khí/hiếu khí, điểm chốt pH 3.8-4.2, kỹ thuật phơi giàn lưới châu Phi." },
       { name: "Agent 2: Cupping & Market Valuator", desc: "Dự phóng hương vị (Winey, Jackfruit), hồ sơ rang Medium, định vị giá Premium so sàn London." },
@@ -192,8 +192,8 @@ const EXPERTS_DATA = [
     gradient: "linear-gradient(135deg, #7c2d12 0%, #c2410c 50%, #ea580c 100%)",
     tagline: "Vệ sinh sạch - Dinh dưỡng đủ - Phòng bệnh định kỳ",
     summary: "Dinh dưỡng & khẩu phần thức ăn thô xanh/tinh cho giống Boer, Bách Thảo; xử lý cấp cứu chướng hơi dạ cỏ, viêm ruột hoại tử, tụ huyết trùng.",
-    defaultShareUrl: "",
-    statusText: "Chờ cấu hình link",
+    defaultShareUrl: "https://share.gemini.google/Tu0ubpg1Y1sU",
+    statusText: "Đã kết nối Gemini",
     agents: [
       { name: "Agent 1: Veterinary Pathology", desc: "Chẩn đoán lâm sàng phân biệt chướng hơi dạ cỏ, tụ huyết trùng sốt cao, cầu trùng dê con." },
       { name: "Agent 2: Pharmacology & Nutrition", desc: "Phác đồ cấp cứu chướng hơi, kê đơn kháng sinh điều trị, điều chỉnh tỷ lệ thô/tinh và FCR." },
@@ -221,7 +221,7 @@ function getExperts() {
   const savedLinks = getSavedLinks();
   return EXPERTS_DATA.map(exp => {
     const customUrl = savedLinks[exp.id];
-    const activeUrl = customUrl !== undefined ? customUrl : exp.defaultShareUrl;
+    const activeUrl = (customUrl !== undefined && customUrl.trim().length > 0) ? customUrl : exp.defaultShareUrl;
     return {
       ...exp,
       shareUrl: activeUrl,

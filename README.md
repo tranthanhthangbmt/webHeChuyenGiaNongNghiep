@@ -11,14 +11,19 @@ Trang web ứng dụng hỗ trợ quyết định (Decision Support System - DSS
    - *Link Gemini:* [Mở Chat Gemini](https://share.gemini.google/5KFAUIJHMoVf)
 2. **🌿 Hệ Chuyên Gia Bảo Vệ Thực Vật Hồ Tiêu (PEPPER-DOCTOR v1)**
    - *Lĩnh vực:* Chẩn đoán bệnh Chết nhanh (Phytophthora), Chết chậm (Tuyến trùng/Fusarium) & phác đồ IPM luân phiên.
+   - *Link Gemini:* [Mở Chat Gemini](https://share.gemini.google/iK1FGQn3AuJH)
 3. **🍈 Hệ Chuyên Gia Sầu Riêng (DURIAN-MASTER v1)**
    - *Lĩnh vực:* Xử lý làm bông nghịch vụ (đậy bạt, siết nước), kỹ thuật chặn đọt non khi xả nhụy & chống rụng trái non.
+   - *Link Gemini:* [Mở Chat Gemini](https://share.gemini.google/KeeNMRZO2qiW)
 4. **🌱 Hệ Chuyên Gia Cải Tạo Đất Bazan (SOIL-MASTER v1)**
    - *Lĩnh vực:* Hạ chua nâng pH, giải phóng Lân cố định, tái tạo mùn và cấy tổ hợp vi sinh Trichoderma/Bacillus.
+   - *Link Gemini:* [Mở Chat Gemini](https://share.gemini.google/KGwfQQqA8jGf)
 5. **🍷 Hệ Chuyên Gia Chế Biến Fine Robusta (BREW-MASTER v1)**
    - *Lĩnh vực:* Lên men yếm khí (Anaerobic), kiểm soát nhiệt độ bồn/Brix/pH, đạt tiêu chuẩn thử nếm SCA/CQI và định giá xuất khẩu.
+   - *Link Gemini:* [Mở Chat Gemini](https://share.gemini.google/y24RFu2dfjSw)
 6. **🐐 Hệ Chuyên Gia Chăn Nuôi Dê Tây Nguyên (GOAT-MASTER v1)**
    - *Lĩnh vực:* Dinh dưỡng giống dê Boer/Bách Thảo, cấp cứu chướng hơi dạ cỏ, điều trị tụ huyết trùng và an toàn chuồng trại.
+   - *Link Gemini:* [Mở Chat Gemini](https://share.gemini.google/Tu0ubpg1Y1sU)
 
 ---
 

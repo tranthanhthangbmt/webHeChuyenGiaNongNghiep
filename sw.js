@@ -1,5 +1,5 @@
 // Service Worker đơn giản hỗ trợ Cache tài nguyên tĩnh cho AgriDSS
-const CACHE_NAME = 'agri-dss-v1';
+const CACHE_NAME = 'agri-dss-v2';
 const ASSETS_TO_CACHE = [
   './',
   './index.html',

@@ -281,6 +281,19 @@ function openDetailModal(expertId) {
     `;
   }
 
+  const footerEl = document.querySelector("#detailModal .modal-footer");
+  if (footerEl) {
+    footerEl.innerHTML = `
+      <button class="btn-outline" onclick="hideModal('detailModal')">Đóng</button>
+      <button class="btn-header primary" onclick="handleOpenGemini('${expertId}')">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M12 2a10 10 0 0 1 10 10c0 5.523-4.477 10-10 10-1.82 0-3.53-.484-5-1.332L2 22l1.332-5C2.484 15.53 2 13.82 2 12a10 10 0 0 1 10-10zm0 2a8 8 0 0 0-8 8c0 1.54.436 2.98 1.196 4.208l-.517 1.942 1.942-.517A7.96 7.96 0 0 0 12 20a8 8 0 0 0 8-8 8 8 0 0 0-8-8zm-1 4h2v2h-2V8zm0 4h2v6h-2v-6z"/>
+        </svg>
+        <span>Mở Trò Chuyện Gemini</span>
+      </button>
+    `;
+  }
+
   showModal("detailModal");
 }
 
