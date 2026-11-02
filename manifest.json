@@ -1,0 +1,19 @@
+{
+  "name": "Hệ Chuyên Gia Nông Nghiệp Tây Nguyên",
+  "short_name": "AgriDSS",
+  "description": "Cổng Hệ Chuyên Gia Hỗ Trợ Quyết Định (DSS) Nông Nghiệp Vùng Tây Nguyên - Liên kết Gemini AI Expert",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#064e3b",
+  "theme_color": "#064e3b",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "assets/icons/icon.svg",
+      "sizes": "192x192 512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
+

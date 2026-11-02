@@ -1,0 +1,4 @@
+[prompt tạo web chuyên gia]
+tôi muốn xây dựng trang web về các hệ chuyên gia trong nông nghiệp để dùng cá nhân như các chuyên gia trong thư mục đang làm, tôi muốn đưa trang web lên github để chạy. Xây dựng cho tôi trang web để dễ quản lý và sử dụng kể cả trên điện thoại. Khi nhấn vào từng chuyên gia nó sẽ liên kết đến skill chuyên gia trên Gemini của tôi dạng share link chat. Một số link chuyên gia tôi để trong file linksES.txt
+--------------------------------
+dựa trên cấu trúc của các hệ chuyên gia về nông nghiệp, luật đất đai đang có. Hãy xây dựng gem instruction cho hệ chuyên gia chăn nuôi dê ở Tây Nguyên. Xuất ra hộp code để tôi dễ copy paste.
