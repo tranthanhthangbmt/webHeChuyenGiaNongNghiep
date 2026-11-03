@@ -8,6 +8,9 @@ const AppState = {
   currentCategory: "all",
   searchKeyword: "",
   activeExpertModal: null,
+  activeDocExpert: null,
+  docCategory: "all",
+  docKeyword: "",
   theme: localStorage.getItem("agri_theme") || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light")
 };
 
@@ -101,7 +104,7 @@ function renderCards() {
     return `
       <div class="expert-card" data-id="${expert.id}">
         <!-- Header Banner -->
-        <div class="card-banner" style="background: ${expert.gradient};">
+        <div class="card-banner" style="background: ${expert.gradient}; cursor: pointer;" onclick="handleCardBannerClick('${expert.id}')" title="Bấm để xem chi tiết / tài liệu chuyên gia">
           <div class="card-banner-pattern"></div>
           <div class="card-banner-content">
             <div class="expert-icon-wrap">
@@ -116,7 +119,7 @@ function renderCards() {
 
         <!-- Body -->
         <div class="card-body">
-          <h3 class="expert-title">${expert.name}</h3>
+          <h3 class="expert-title" style="cursor: pointer;" onclick="handleCardBannerClick('${expert.id}')">${expert.name}</h3>
           <div class="expert-tagline">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
               <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
@@ -144,6 +147,15 @@ function renderCards() {
             </div>
             <span style="font-size: 0.72rem; opacity: 0.85;">${isLinked ? 'Gemini Share' : 'Cần thêm link'}</span>
           </div>
+
+          ${expert.hasDocuments ? `
+            <!-- Pill tài liệu nguồn của chuyên gia -->
+            <div class="card-doc-pill" onclick="openDocumentsModal('${expert.id}')" title="Xem danh mục ${expert.documentsCount || 31} tài liệu chuyên khảo & quy chuẩn làm nền tảng tri thức">
+              <span class="doc-pill-icon">📚</span>
+              <span class="doc-pill-text"><strong>${expert.documentsCount || 31} Tài liệu nguồn:</strong> Giáo trình, WASI, VietGAP, UTZ</span>
+              <span class="doc-pill-action">Xem ➔</span>
+            </div>
+          ` : ''}
 
           <!-- Quick Prompts (Mẫu câu hỏi) -->
           <div class="card-quick-prompts">
@@ -174,13 +186,23 @@ function renderCards() {
           </button>
 
           <div class="card-sub-actions">
-            <button class="btn-outline" onclick="openDetailModal('${expert.id}')">
+            <button class="btn-outline" onclick="openDetailModal('${expert.id}')" title="Xem 5 Bước quy trình & System Prompt">
               <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
               </svg>
-              <span>Quy trình & Prompt</span>
+              <span>Quy trình</span>
             </button>
-            <button class="btn-outline" onclick="openSingleEditModal('${expert.id}')" title="Cập nhật link Gemini">
+
+            ${expert.hasDocuments ? `
+              <button class="btn-outline btn-doc-action" onclick="openDocumentsModal('${expert.id}')" title="Xem ${expert.documentsCount || 31} tài liệu cơ sở tri thức">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
+                </svg>
+                <span>Tài liệu (${expert.documentsCount || 31})</span>
+              </button>
+            ` : ''}
+
+            <button class="btn-outline btn-link-edit" onclick="openSingleEditModal('${expert.id}')" title="Cập nhật link Gemini">
               <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
               </svg>
@@ -257,6 +279,22 @@ function openDetailModal(expertId) {
         <div style="font-size:0.78rem; color:var(--text-secondary); margin-top:6px;"><strong>Luật hệ thống:</strong> ${expert.ruleSystem}</div>
       </div>
 
+      ${expert.hasDocuments ? `
+        <!-- Banner liên kết sang tủ tài liệu -->
+        <div class="kb-banner" onclick="openDocumentsModal('${expert.id}')" title="Bấm để xem toàn bộ danh mục tài liệu">
+          <div style="display:flex; align-items:center; gap:10px;">
+            <span style="font-size:1.5rem;">📚</span>
+            <div>
+              <div style="font-weight:750; font-size:0.88rem; color:var(--text-primary);">Cơ Sở Tri Thức: ${expert.documentsCount || 31} tài liệu & quy chuẩn</div>
+              <div style="font-size:0.78rem; color:var(--text-secondary); margin-top:2px;">Giáo trình ĐH, WASI, VietGAP, tiêu chuẩn UTZ, nghiên cứu thổ nhưỡng...</div>
+            </div>
+          </div>
+          <button class="btn-outline" style="font-size:0.75rem; padding:4px 10px; pointer-events:none;">
+            <span>Xem 31 tài liệu ➔</span>
+          </button>
+        </div>
+      ` : ''}
+
       <div style="margin-bottom:14px;">
         <h4 style="font-size:0.9rem; font-weight:750; margin-bottom:8px; color:var(--text-primary);">Quy trình 5 Cửa Sắt (5-Step Protocol):</h4>
         <ul style="padding-left:18px; font-size:0.82rem; line-height:1.6; color:var(--text-secondary);">
@@ -284,13 +322,24 @@ function openDetailModal(expertId) {
   const footerEl = document.querySelector("#detailModal .modal-footer");
   if (footerEl) {
     footerEl.innerHTML = `
-      <button class="btn-outline" onclick="hideModal('detailModal')">Đóng</button>
-      <button class="btn-header primary" onclick="handleOpenGemini('${expertId}')">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
-          <path d="M12 2a10 10 0 0 1 10 10c0 5.523-4.477 10-10 10-1.82 0-3.53-.484-5-1.332L2 22l1.332-5C2.484 15.53 2 13.82 2 12a10 10 0 0 1 10-10zm0 2a8 8 0 0 0-8 8c0 1.54.436 2.98 1.196 4.208l-.517 1.942 1.942-.517A7.96 7.96 0 0 0 12 20a8 8 0 0 0 8-8 8 8 0 0 0-8-8zm-1 4h2v2h-2V8zm0 4h2v6h-2v-6z"/>
-        </svg>
-        <span>Mở Trò Chuyện Gemini</span>
-      </button>
+      <div style="display:flex; justify-content:space-between; align-items:center; width:100%; flex-wrap:wrap; gap:8px;">
+        <div>
+          ${expert.hasDocuments ? `
+            <button class="btn-outline btn-doc-action" onclick="openDocumentsModal('${expertId}')">
+              <span>📚 Xem ${expert.documentsCount || 31} Tài Liệu Tham Khảo</span>
+            </button>
+          ` : ''}
+        </div>
+        <div style="display:flex; gap:8px;">
+          <button class="btn-outline" onclick="hideModal('detailModal')">Đóng</button>
+          <button class="btn-header primary" onclick="handleOpenGemini('${expertId}')">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 2a10 10 0 0 1 10 10c0 5.523-4.477 10-10 10-1.82 0-3.53-.484-5-1.332L2 22l1.332-5C2.484 15.53 2 13.82 2 12a10 10 0 0 1 10-10zm0 2a8 8 0 0 0-8 8c0 1.54.436 2.98 1.196 4.208l-.517 1.942 1.942-.517A7.96 7.96 0 0 0 12 20a8 8 0 0 0 8-8 8 8 0 0 0-8-8zm-1 4h2v2h-2V8zm0 4h2v6h-2v-6z"/>
+            </svg>
+            <span>Mở Trò Chuyện Gemini</span>
+          </button>
+        </div>
+      </div>
     `;
   }
 
@@ -588,6 +637,254 @@ function escapeHtml(text) {
     .replace(/>/g, "&gt;")
     .replace(/"/g, "&quot;")
     .replace(/'/g, "&#039;");
+}
+
+function escapeJs(str) {
+  if (!str) return "";
+  return str.replace(/\\/g, "\\\\").replace(/'/g, "\\'").replace(/"/g, "&quot;");
+}
+
+// 15. Xử lý khi nhấn vào Banner hoặc Tiêu đề Chuyên gia
+function handleCardBannerClick(expertId) {
+  const expert = AppState.experts.find(e => e.id === expertId);
+  if (expert && expert.hasDocuments) {
+    openDocumentsModal(expertId);
+  } else {
+    openDetailModal(expertId);
+  }
+}
+
+// 16. Quản lý Modal Danh Mục Tài Liệu (Knowledge Base)
+function openDocumentsModal(expertId, initialCategory = "all") {
+  const expert = AppState.experts.find(e => e.id === expertId);
+  const docData = typeof EXPERTS_DOCUMENTS !== "undefined" && EXPERTS_DOCUMENTS[expertId];
+  if (!docData) {
+    showToast("Chưa có danh mục tài liệu cho chuyên gia này.");
+    return;
+  }
+
+  AppState.activeDocExpert = expertId;
+  AppState.docCategory = initialCategory;
+  AppState.docKeyword = "";
+
+  const titleEl = document.getElementById("documentsModalTitle");
+  if (titleEl) {
+    titleEl.innerHTML = `<span>${docData.icon}</span> <span>Cơ Sở Tri Thức: ${expert ? expert.name : docData.expertName}</span>`;
+  }
+
+  renderDocumentsModalContent();
+  showModal("documentsModal");
+}
+
+function renderDocumentsModalContent() {
+  const expertId = AppState.activeDocExpert;
+  const expert = AppState.experts.find(e => e.id === expertId);
+  const docData = typeof EXPERTS_DOCUMENTS !== "undefined" && EXPERTS_DOCUMENTS[expertId];
+  const container = document.getElementById("documentsModalContent");
+  const footerEl = document.getElementById("documentsModalFooter");
+  if (!docData || !container) return;
+
+  const kw = removeVietnameseTones((AppState.docKeyword || "").toLowerCase().trim());
+  const selectedCat = AppState.docCategory || "all";
+
+  // Lọc theo nhóm và từ khóa
+  let totalFiltered = 0;
+  const filteredCategories = docData.categories.map(cat => {
+    if (selectedCat !== "all" && cat.id !== selectedCat) {
+      return { ...cat, filteredItems: [] };
+    }
+    const matchingItems = cat.items.filter(item => {
+      if (!kw) return true;
+      const targetStr = removeVietnameseTones(`${item.title} ${item.author} ${item.type} ${item.desc}`.toLowerCase());
+      return targetStr.includes(kw);
+    });
+    totalFiltered += matchingItems.length;
+    return { ...cat, filteredItems: matchingItems };
+  }).filter(cat => cat.filteredItems.length > 0);
+
+  // Render HTML
+  container.innerHTML = `
+    <!-- Header tóm tắt -->
+    <div class="docs-header-summary">
+      <div style="font-size:2.2rem; line-height:1;">${docData.icon}</div>
+      <div style="flex:1;">
+        <div style="font-weight:750; font-size:0.95rem; color:var(--text-primary);">${docData.expertName}</div>
+        <div style="font-size:0.82rem; color:var(--text-secondary); margin-top:3px; line-height:1.45;">
+          ${docData.summary}
+        </div>
+        <div style="display:flex; flex-wrap:wrap; gap:8px; margin-top:8px;">
+          <span class="group-badge" style="background:var(--badge-bg); color:var(--badge-text); font-size:0.72rem; padding:3px 8px; border-radius:12px; font-weight:600;">
+            📚 Tổng cộng: ${docData.totalCount} tài liệu
+          </span>
+          <span class="group-badge" style="background:rgba(245,158,11,0.15); color:#b45309; font-size:0.72rem; padding:3px 8px; border-radius:12px; font-weight:600;">
+            🏛️ Nguồn: WASI, VnSAT, Bộ NN&PTNT, UTZ, Wiley
+          </span>
+          <span class="group-badge" style="background:rgba(16,185,129,0.15); color:#047857; font-size:0.72rem; padding:3px 8px; border-radius:12px; font-weight:600;">
+            📁 File: ${docData.filePath}
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Thanh tìm kiếm tài liệu -->
+    <div class="docs-search-bar">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+      </svg>
+      <input type="text" 
+             id="docSearchInputField" 
+             placeholder="Tìm nhanh theo tên giáo trình, tác giả, WASI, VietGAP, UTZ, tưới nước..." 
+             value="${escapeHtml(AppState.docKeyword)}"
+             oninput="handleDocSearch(this.value)" />
+      ${AppState.docKeyword ? `
+        <button style="background:none; border:none; cursor:pointer; color:var(--text-muted);" onclick="handleDocSearch('')" title="Xóa tìm kiếm">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+          </svg>
+        </button>
+      ` : ''}
+    </div>
+
+    <!-- Category filter chips -->
+    <div class="docs-cat-tabs">
+      <button class="docs-cat-chip ${selectedCat === 'all' ? 'active' : ''}" onclick="setDocCategory('all')">
+        Tất cả (${docData.totalCount})
+      </button>
+      ${docData.categories.map(cat => `
+        <button class="docs-cat-chip ${selectedCat === cat.id ? 'active' : ''}" onclick="setDocCategory('${cat.id}')">
+          ${cat.icon} ${cat.name} (${cat.count})
+        </button>
+      `).join("")}
+    </div>
+
+    <!-- Danh sách tài liệu -->
+    ${filteredCategories.length === 0 ? `
+      <div style="text-align:center; padding:40px 16px; color:var(--text-muted);">
+        <div style="font-size:2rem; margin-bottom:8px;">🔍</div>
+        <div style="font-weight:700; color:var(--text-primary); font-size:0.95rem;">Không tìm thấy tài liệu phù hợp</div>
+        <div style="font-size:0.82rem; margin-top:4px;">Thử từ khóa khác hoặc bấm nút "Tất cả" để xem toàn bộ danh mục.</div>
+      </div>
+    ` : filteredCategories.map(cat => `
+      <div class="docs-group">
+        <div class="docs-group-header">
+          <div style="display:flex; align-items:center; gap:8px;">
+            <span>${cat.icon}</span>
+            <span>${cat.name}</span>
+          </div>
+          <span class="group-badge">${cat.filteredItems.length} tài liệu</span>
+        </div>
+
+        <div class="docs-group-items">
+          ${cat.filteredItems.map(item => `
+            <div class="doc-item-card">
+              <div class="doc-item-main">
+                <div class="doc-item-title-row">
+                  <span class="doc-item-num">${item.index}.</span>
+                  <div class="doc-item-title">${escapeHtml(item.title)}</div>
+                </div>
+                <div class="doc-item-meta">
+                  <span class="doc-type-badge">${escapeHtml(item.type)}</span>
+                  <span>✍️ ${escapeHtml(item.author)}</span>
+                </div>
+                <div class="doc-item-desc">${escapeHtml(item.desc)}</div>
+              </div>
+              <button class="btn-copy-doc" onclick="copySingleDocTitle('${escapeJs(item.title)}')" title="Sao chép tên tài liệu">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                  <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                  <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                </svg>
+                <span>Sao chép</span>
+              </button>
+            </div>
+          `).join("")}
+        </div>
+      </div>
+    `).join("")}
+  `;
+
+  // Render Footer Buttons
+  if (footerEl) {
+    footerEl.innerHTML = `
+      <div style="display:flex; gap:8px; flex-wrap:wrap; width:100%; justify-content:space-between; align-items:center;">
+        <div style="display:flex; gap:8px; flex-wrap:wrap;">
+          <button class="btn-outline" onclick="copyDocMarkdown('${expertId}')" title="Sao chép toàn bộ danh mục dạng Markdown">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+              <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+              <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+            </svg>
+            <span>Sao chép Markdown</span>
+          </button>
+          <button class="btn-outline" onclick="downloadDocFile('${expertId}')" title="Tải file ${docData.fileName} về máy">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
+            </svg>
+            <span>Tải file .md</span>
+          </button>
+        </div>
+        <div style="display:flex; gap:8px; flex-wrap:wrap;">
+          <button class="btn-outline" onclick="hideModal('documentsModal')">Đóng</button>
+          ${(expert && expert.hasLink) ? `
+            <a href="${expert.shareUrl}" target="_blank" class="btn-header primary" style="text-decoration:none;">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 2a10 10 0 0 1 10 10c0 5.523-4.477 10-10 10-1.82 0-3.53-.484-5-1.332L2 22l1.332-5C2.484 15.53 2 13.82 2 12a10 10 0 0 1 10-10zm0 2a8 8 0 0 0-8 8c0 1.54.436 2.98 1.196 4.208l-.517 1.942 1.942-.517A7.96 7.96 0 0 0 12 20a8 8 0 0 0 8-8 8 8 0 0 0-8-8zm-1 4h2v2h-2V8zm0 4h2v6h-2v-6z"/>
+              </svg>
+              <span>Hỏi Gemini Về Tài Liệu</span>
+            </a>
+          ` : ''}
+        </div>
+      </div>
+    `;
+  }
+}
+
+function handleDocSearch(val) {
+  AppState.docKeyword = val || "";
+  renderDocumentsModalContent();
+  const inputEl = document.getElementById("docSearchInputField");
+  if (inputEl) {
+    inputEl.focus();
+    inputEl.selectionStart = inputEl.selectionEnd = inputEl.value.length;
+  }
+}
+
+function setDocCategory(catId) {
+  AppState.docCategory = catId;
+  renderDocumentsModalContent();
+}
+
+function copySingleDocTitle(title) {
+  navigator.clipboard.writeText(title).then(() => {
+    showToast(`Đã sao chép: "${title.substring(0, 35)}..."`);
+  }).catch(() => {
+    prompt("Sao chép tên tài liệu:", title);
+  });
+}
+
+function copyDocMarkdown(expertId) {
+  const docData = typeof EXPERTS_DOCUMENTS !== "undefined" && EXPERTS_DOCUMENTS[expertId];
+  if (!docData || !docData.rawMarkdown) return;
+
+  navigator.clipboard.writeText(docData.rawMarkdown).then(() => {
+    showToast(`Đã sao chép toàn bộ ${docData.totalCount} tài liệu của ${docData.expertName}!`);
+  }).catch(() => {
+    showToast("Không thể sao chép, vui lòng thử lại!");
+  });
+}
+
+function downloadDocFile(expertId) {
+  const docData = typeof EXPERTS_DOCUMENTS !== "undefined" && EXPERTS_DOCUMENTS[expertId];
+  if (!docData || !docData.rawMarkdown) return;
+
+  const blob = new Blob([docData.rawMarkdown], { type: "text/markdown;charset=utf-8" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = docData.fileName || "taiLieu_coffee.md";
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+  showToast(`Đã tải xuống file ${docData.fileName}!`);
 }
 
 // Đăng ký Service Worker

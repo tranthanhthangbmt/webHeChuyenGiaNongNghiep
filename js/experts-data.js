@@ -17,8 +17,11 @@ const EXPERTS_DATA = [
     gradient: "linear-gradient(135deg, #78350f 0%, #b45309 50%, #d97706 100%)",
     tagline: "Đúng thời điểm - Đúng liều lượng - Tối ưu kinh tế",
     summary: "Quản lý dinh dưỡng, điều tiết nước tưới siết nước làm bông, xử lý phân hóa mầm hoa và chống suy kiệt cà phê Robusta.",
-    defaultShareUrl: "https://share.gemini.google/5KFAUIJHMoVf",
+    defaultShareUrl: "https://share.gemini.google/Z4wESHwdclny",
     statusText: "Đã kết nối Gemini",
+    hasDocuments: true,
+    documentsCount: 31,
+    documentsFile: "Data/taiLieu_coffee.md",
     agents: [
       { name: "Agent 1: Water & Climate", desc: "Đo ứng suất siết nước, thời điểm và lượng tưới phá miên trạng hoa (350-500L/gốc)." },
       { name: "Agent 2: Nutrition Engine", desc: "Kê đơn NPK giai đoạn ra hoa, nuôi trái non, bổ sung Canxi-Bo chống rụng sinh lý." },
@@ -216,11 +219,20 @@ const EXPERTS_DATA = [
   }
 ];
 
+// Danh sách các link mặc định cũ để tự động chuyển sang link mới nếu người dùng từng lưu cache
+const LEGACY_DEFAULT_LINKS = [
+  "https://share.gemini.google/5KFAUIJHMoVf",
+  "https://share.gemini.google/l3nsEUTsFTUe"
+];
+
 // Hàm nạp dữ liệu với cấu hình lưu trong LocalStorage (cho phép người dùng tùy biến link)
 function getExperts() {
   const savedLinks = getSavedLinks();
   return EXPERTS_DATA.map(exp => {
-    const customUrl = savedLinks[exp.id];
+    let customUrl = savedLinks[exp.id];
+    if (customUrl && LEGACY_DEFAULT_LINKS.includes(customUrl.trim())) {
+      customUrl = undefined;
+    }
     const activeUrl = (customUrl !== undefined && customUrl.trim().length > 0) ? customUrl : exp.defaultShareUrl;
     return {
       ...exp,

@@ -8,7 +8,8 @@ Trang web ứng dụng hỗ trợ quyết định (Decision Support System - DSS
 
 1. **☕ Hệ Chuyên Gia Cà Phê Tây Nguyên (COFFEE-MASTER v1)**
    - *Lĩnh vực:* Quản lý dinh dưỡng, điều tiết nước tưới siết hoa & phục hồi cà phê Robusta.
-   - *Link Gemini:* [Mở Chat Gemini](https://share.gemini.google/5KFAUIJHMoVf)
+   - *Link Gemini:* [Mở Chat Gemini](https://share.gemini.google/Z4wESHwdclny)
+   - *Cơ sở Tri thức (Knowledge Base):* Tích hợp 31 tài liệu chuyên khảo & quy chuẩn (WASI, VnSAT, VietGAP, UTZ, Wiley-VCH) tại [`Data/taiLieu_coffee.md`](Data/taiLieu_coffee.md).
 2. **🌿 Hệ Chuyên Gia Bảo Vệ Thực Vật Hồ Tiêu (PEPPER-DOCTOR v1)**
    - *Lĩnh vực:* Chẩn đoán bệnh Chết nhanh (Phytophthora), Chết chậm (Tuyến trùng/Fusarium) & phác đồ IPM luân phiên.
    - *Link Gemini:* [Mở Chat Gemini](https://share.gemini.google/iK1FGQn3AuJH)

@@ -1,14 +1,16 @@
 // Service Worker đơn giản hỗ trợ Cache tài nguyên tĩnh cho AgriDSS
-const CACHE_NAME = 'agri-dss-v2';
+const CACHE_NAME = 'agri-dss-v5';
 const ASSETS_TO_CACHE = [
   './',
   './index.html',
   './css/style.css',
   './js/experts-data.js',
+  './js/experts-docs.js',
   './js/experts-fulltext.js',
   './js/app.js',
   './manifest.json',
-  './assets/icons/icon.svg'
+  './assets/icons/icon.svg',
+  './Data/taiLieu_coffee.md'
 ];
 
 self.addEventListener('install', (event) => {

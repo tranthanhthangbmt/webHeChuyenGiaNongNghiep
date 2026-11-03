@@ -330,8 +330,34 @@
     </div>
   </div>
 
+  <!-- Modal 5: Tủ Tài Liệu & Cơ Sở Tri Thức (Knowledge Base) -->
+  <div id="documentsModal" class="modal-overlay">
+    <div class="modal-card large">
+      <div class="modal-header">
+        <h3 id="documentsModalTitle" class="modal-title">
+          <span>📚</span>
+          <span>Cơ Sở Tri Thức & Tài Liệu Nguồn</span>
+        </h3>
+        <button class="btn-close-modal" onclick="hideModal('documentsModal')" title="Đóng">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+          </svg>
+        </button>
+      </div>
+
+      <div class="modal-body" id="documentsModalContent">
+        <!-- Render bằng JavaScript -->
+      </div>
+
+      <div class="modal-footer" id="documentsModalFooter">
+        <!-- Render bằng JavaScript -->
+      </div>
+    </div>
+  </div>
+
   <!-- Scripts -->
   <script src="js/experts-data.js"></script>
+  <script src="js/experts-docs.js"></script>
   <script src="js/experts-fulltext.js"></script>
   <script src="js/app.js"></script>
 </body>
